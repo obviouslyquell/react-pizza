@@ -1,23 +1,61 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Header from './Components/Header/Header';
+import Card from './Components/Card/Card';
+import UserChoiceButton from './Components/UserChoiceButton/UserChoiceButton';
 function App() {
+
+  const arr = [
+    {title:'Чизбургер-пицца',
+    price:395,
+    url:'img/1.png',
+    category:'Мясные'},
+    {title:'Сырная',
+    price:456,
+    url:'img/2.png',
+    category:'Вегетерианская'},
+    {title:'Креветки по-азиатски',
+    price:745,
+    url:'img/3.png',
+    category:'Мясные'},
+    {title:'Креветки по-азиатски',
+    price:745,
+    url:'img/3.png',
+    category:'Вегетерианская'},
+    {title:'Сырный цыпленок',
+    price:444,
+    url:'img/4.png',
+    category:'Гриль'}
+  ]
+
+  let categories = {};
+  let newCategories = arr.filter(function(entry) {    // создается новый отфильтрованный массив с уникальными категориями
+    if (arr[entry.category]) {
+        return false;
+    }
+    arr[entry.category] = true;
+    return true;
+    
+});
+console.log(categories, newCategories)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Header/>
+
+      <div className="user-choice">
+        <div className="user-choice__btns">
+          <button>Все</button>
+          {newCategories.map(i=><UserChoiceButton category={i.category}/>)}
+        </div>
+        <div className="user-choice__sorting">
+
+        </div>
+      </div>
+
+      <div className="content">
+        <ul className="pizza-list">
+          {arr.map(item=><Card title={item.title} price={item.price} url={item.url}/>)}
+        </ul>
+      </div>
     </div>
   );
 }
