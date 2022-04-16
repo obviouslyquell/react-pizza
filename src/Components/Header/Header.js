@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -10,7 +11,9 @@ function Header() {
             <p>Самая вкусная пицца во вселенной</p>
           </div>
         </div>
+        <Link to='/cart'>
         <div className="cart">
+          
           <div className="price">
           520 ₽
           </div>
@@ -23,7 +26,9 @@ function Header() {
           </svg>
             <p>3</p>
           </div>
+          
         </div>
+        </Link>
       </header>
   )
 }
