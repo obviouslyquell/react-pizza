@@ -1,10 +1,20 @@
 import React from 'react'
 
-function UserChoiceButton(props) {
-    let {category} = props
-    console.log(category)
-  return (
-    <button className='Light'>{category}</button>
+function UserChoiceButton({categories}) {
+  let [activeItem, setActiveItem] = React.useState(null)
+  const onSelectItem = (index) =>{
+    setActiveItem(index);
+  }
+  console.log(categories)
+  return (<>
+  <button className={activeItem===null?'dark-btn':'light-btn'} onClick={() => onSelectItem(null)}>Все</button>
+        {categories.map((i,index)=>
+        <button 
+        onClick={()=>onSelectItem(index)} 
+        className={activeItem===index? 'dark-btn' : 'light-btn'}
+        key={`${i}_${index}`}>{i.category}</button>)}
+  </>
+    
   )
 }
 

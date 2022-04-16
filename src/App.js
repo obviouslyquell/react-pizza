@@ -2,6 +2,9 @@ import './App.css';
 import Header from './Components/Header/Header';
 import Card from './Components/Card/Card';
 import UserChoiceButton from './Components/UserChoiceButton/UserChoiceButton';
+import SortPopup from './Components/SortPopup/SortPopup';
+
+
 function App() {
 
   const arr = [
@@ -17,18 +20,13 @@ function App() {
     price:745,
     url:'img/3.png',
     category:'Мясные'},
-    {title:'Креветки по-азиатски',
-    price:745,
-    url:'img/3.png',
-    category:'Вегетерианская'},
     {title:'Сырный цыпленок',
     price:444,
     url:'img/4.png',
     category:'Гриль'}
   ]
 
-  let categories = {};
-  let newCategories = arr.filter(function(entry) {    // создается новый отфильтрованный массив с уникальными категориями
+  let curCategories = arr.filter(function(entry) {    // создается новый отфильтрованный массив с уникальными категориями
     if (arr[entry.category]) {
         return false;
     }
@@ -36,24 +34,25 @@ function App() {
     return true;
     
 });
-console.log(categories, newCategories)
   return (
     <div className="container">
       <Header/>
 
       <div className="user-choice">
         <div className="user-choice__btns">
-          <button>Все</button>
-          {newCategories.map(i=><UserChoiceButton category={i.category}/>)}
+          <UserChoiceButton categories={curCategories}/>
         </div>
-        <div className="user-choice__sorting">
-
-        </div>
+        <SortPopup items={['популярности', 'цене', 'алфавиту']}/>
       </div>
 
       <div className="content">
         <ul className="pizza-list">
-          {arr.map(item=><Card title={item.title} price={item.price} url={item.url}/>)}
+          {arr.map(item=>
+          <Card 
+          title={item.title} 
+          price={item.price} 
+          url={item.url}
+          key={`${item.title}_${item.price}`}/>)}
         </ul>
       </div>
     </div>
@@ -61,3 +60,7 @@ console.log(categories, newCategories)
 }
 
 export default App;
+
+
+
+
