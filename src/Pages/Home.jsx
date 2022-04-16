@@ -6,7 +6,14 @@ import SortPopup from '../Components/SortPopup/SortPopup';
 
 
 function Home() {
-    const arr = [
+
+
+    const [items, setItems] = React.useState([]);
+    React.useEffect(()=>{
+      fetch('https://625b2a1f398f3bc782aa7ec9.mockapi.io/pizzas').then((res)=>res.json()).then(a=>setItems(a));
+
+    }, [])
+      const arr = [
         {title:'Чизбургер-пицца',
         price:395,
         url:'img/1.png',
@@ -24,32 +31,36 @@ function Home() {
         url:'img/4.png',
         category:'Гриль'}
       ]
-    
-      let curCategories = arr.filter(function(entry) {    // создается новый отфильтрованный массив с уникальными категориями
-        if (arr[entry.category]) {
+      console.log(items)
+      let curCategories = items.filter(function(entry) {    // создается новый отфильтрованный массив с уникальными категориями
+        if (arr[entry['category']]) {
             return false;
         }
-        arr[entry.category] = true;
-        return true;
+        items[arr['category']] = true;
+      return true;
         
-    });
+    })
   return (<>
     <div className="user-choice">
         <div className="user-choice__btns">
-          <UserChoiceButton categories={curCategories}/>
+          <UserChoiceButton categories={curCategories} items={items}/>
         </div>
         <SortPopup items={['популярности', 'цене', 'алфавиту']}/>
       </div>
 
       <div className="content">
-        <ul className="pizza-list">
+        {/*<ul className="pizza-list">
           {arr.map(item=>
           <Card 
           title={item.title} 
           price={item.price} 
           url={item.url}
           key={`${item.title}_${item.price}`}/>)}
-        </ul>
+          </ul>*/}
+
+          <ul className="pizza-list">
+            <Card items={items}/>
+          </ul>
     </div>
     </>
   )

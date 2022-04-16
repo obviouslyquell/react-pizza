@@ -5,12 +5,16 @@ function Header() {
   return (
     <header className="header">
         <div className="logo">
+          <Link to='/'>
           <img src="img/logo.svg" alt="" className="logo__img" />
           <div className="logo__name">
             <h3>REACT PIZZA</h3>
             <p>Самая вкусная пицца во вселенной</p>
+            
           </div>
+          </Link>
         </div>
+        
         <Link to='/cart'>
         <div className="cart">
           
@@ -34,3 +38,7 @@ function Header() {
 }
 
 export default Header
+
+
+
+

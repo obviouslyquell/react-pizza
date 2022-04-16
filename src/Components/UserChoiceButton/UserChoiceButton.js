@@ -1,11 +1,11 @@
 import React from 'react'
 
-function UserChoiceButton({categories}) {
+function UserChoiceButton({categories, items}) {
+  console.log(items , 'asdf')
   let [activeItem, setActiveItem] = React.useState(null)
   const onSelectItem = (index) =>{
     setActiveItem(index);
   }
-  console.log(categories)
   return (<>
   <button className={activeItem===null?'dark-btn':'light-btn'} onClick={() => onSelectItem(null)}>Все</button>
         {categories.map((i,index)=>

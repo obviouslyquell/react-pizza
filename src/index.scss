@@ -33,7 +33,10 @@ code {
   align-items: center;
   padding: 0 40px;
   border-bottom: 1px solid #F6F6F6;
-
+  a{
+    display: flex;
+    text-decoration: none;
+  }
   .logo {
     display: flex;
 
@@ -54,6 +57,7 @@ code {
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
+
 
     .price {
       margin-right: 13px;
