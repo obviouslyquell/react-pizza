@@ -3,64 +3,51 @@ import UserChoiceButton from '../Components/UserChoiceButton/UserChoiceButton';
 import Card from '../Components/Card/Card';
 
 import SortPopup from '../Components/SortPopup/SortPopup';
+import axios from 'axios';
 
+import { useSelector, useDispatch } from 'react-redux';
 
 function Home() {
 
+  const dispatch = useDispatch();
 
-    const [items, setItems] = React.useState([]);
-    React.useEffect(()=>{
-      fetch('https://625b2a1f398f3bc782aa7ec9.mockapi.io/pizzas').then((res)=>res.json()).then(a=>setItems(a));
+  const items = useSelector(({pizzas}) => pizzas.items);
+  console.log(items)
 
-    }, [])
-      const arr = [
-        {title:'Чизбургер-пицца',
-        price:395,
-        url:'img/1.png',
-        category:'Мясные'},
-        {title:'Сырная',
-        price:456,
-        url:'img/2.png',
-        category:'Вегетерианская'},
-        {title:'Креветки по-азиатски',
-        price:745,
-        url:'img/3.png',
-        category:'Мясные'},
-        {title:'Сырный цыпленок',
-        price:444,
-        url:'img/4.png',
-        category:'Гриль'}
-      ]
-      console.log(items)
-      let curCategories = items.filter(function(entry) {    // создается новый отфильтрованный массив с уникальными категориями
-        if (arr[entry['category']]) {
-            return false;
-        }
-        items[arr['category']] = true;
-      return true;
-        
-    })
+
+      const flags = new Set();
+     const newCategories = items.filter(entry => {   // новый массив с уникальными категориями для UserChoiceButton
+         if (flags.has(entry.category)) {
+             return false;
+         }
+         flags.add(entry.category);
+         return true;
+     });
   return (<>
     <div className="user-choice">
         <div className="user-choice__btns">
-          <UserChoiceButton categories={curCategories} items={items}/>
+          <UserChoiceButton categories={newCategories} />
         </div>
-        <SortPopup items={['популярности', 'цене', 'алфавиту']}/>
+        <SortPopup items={[
+        {name:'популярности', type: 'popular'}, 
+        {name:'цене', type: 'price'}, 
+        {name:'алфавиту', type:'alphabet'}]}/>
       </div>
 
       <div className="content">
-        {/*<ul className="pizza-list">
-          {arr.map(item=>
+          <ul className="pizza-list">
+          {items && items.map(item=>
           <Card 
+          id={item.id}
           title={item.title} 
           price={item.price} 
           url={item.url}
-          key={`${item.title}_${item.price}`}/>)}
-          </ul>*/}
-
-          <ul className="pizza-list">
-            <Card items={items}/>
+          key={`${item.title}_${item.price}`}
+          types={item.types}
+          sizes={item.sizes}
+          />)}
           </ul>
+
     </div>
     </>
   )

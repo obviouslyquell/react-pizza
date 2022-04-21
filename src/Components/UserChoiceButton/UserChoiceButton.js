@@ -1,7 +1,6 @@
 import React from 'react'
 
-function UserChoiceButton({categories, items}) {
-  console.log(items , 'asdf')
+function UserChoiceButton({categories}) {
   let [activeItem, setActiveItem] = React.useState(null)
   const onSelectItem = (index) =>{
     setActiveItem(index);

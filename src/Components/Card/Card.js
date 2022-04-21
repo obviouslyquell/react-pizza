@@ -1,20 +1,47 @@
 import React from 'react'
+import classNames from 'classnames'
 
-function Card({title, price, url}) {
+
+function Card({title, price, url,types,id, sizes}) {
+  const typeNames = ['тонкое', 'толстое']
+  const sizeNames = ['26cм', '30см' ,'45см']
+  const [activeType, setActiveType] = React.useState(types[0])
+  const [activeSize, setActiveSize] = React.useState(sizes[0]);
+  const onSelectType = (index) =>{
+    setActiveType(index);
+  }
+  const onSelectSize = (index)=>{
+    setActiveSize(index)
+  }
   return (
     <li className="pizza-item">
             <img src={url} alt="" className="pizza-item__img" />
             <p className='pizza-item__title'>{title}</p>
             <div className="pizza-item__toggle">
-              <div className="pizza-item__toggle-dough">
-                <button>тонкое</button>
-                <button>традиционное</button>
-              </div>
-              <div className="pizza-item__toggle-diametr">
-                <button>26 см</button>
-                <button>30 см</button>
-                <button>40 см</button>
-              </div>
+              <ul className="pizza-item__toggle-dough">
+                {typeNames.map((i,index)=><li 
+                onClick={()=>onSelectType(index)} 
+                className={
+                  classNames({
+                    'active':activeType===index,
+                    'disabled':!types.includes(index)
+                  })
+                }
+                key={`${index}_${id}`}
+                >{i}</li>)}
+              </ul>
+              <ul className="pizza-item__toggle-diametr">
+                {sizeNames.map((i,index)=>
+                  <li
+                  onClick={()=>onSelectSize(parseInt(i.match(/\d+/)))}    // regex вытаскивает число из строки в sizeNames
+                  className={                                             // можно было сделать sizeNames массивом чисел [26,30,45],
+                    classNames({                                          // и выводить в li число с добавлением см. ,
+                      'active':activeSize===parseInt(i.match(/\d+/)),     // но так впадлу
+                      'disabled':!sizes.includes(parseInt(i.match(/\d+/)))
+                    })
+                  }>{i}</li>
+                )}
+              </ul>
             </div>
             <div className="pizza-item__bottom">
             <div className="pizza-item__price">
@@ -35,3 +62,6 @@ function Card({title, price, url}) {
 }
 
 export default Card
+
+
+
